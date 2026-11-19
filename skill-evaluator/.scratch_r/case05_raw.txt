@@ -1,0 +1,18 @@
+05_no_iteration/README.md": "case: 有日志但无迭代\n",
+      "tests/golden/06_empty_report/README.md": "case: 评审报告为空壳\n"
+    }
+  },
+  "cases": {
+    "01_perfect": {"remove": [], "add": {}},
+    "02_missing_aar": {"remove": ["AAR.md"], "add": {}},
+    "03_missing_report": {"remove": ["评审报告.md"], "add": {}},
+    "04_no_ai_log": {"remove": ["AI日志.md"], "add": {}},
+    "05_no_iteration": {
+      "remove": ["AI日志.md"],
+      "add": {
+        "AI日志.md": "# C4A AI 日志\n\nPrompt：帮我设计一个技能提交自动评审工具。\n\nAI 给了一版四层结构，我采纳。\n\nPrompt：再检查一下证据链。\n\nAI 补了 evidence 字段与 evidence_hash。\n\n协作方式：我负责定义边界与验收，AI 负责实现细节。\n\n失败与报错：第一版空壳判定失误，已修正并复跑。\n\n关于可复现：无网络、无时钟、无随机数，两次运行结果相同。\n\n补充说明：本日志用于演示「有日志但没有多轮迭代」的情形，因此全文只记录单轮需求与一次修正，不记录轮次编号。\n\n再次确认：本文件仅作为 Golden Set 的降级用例，不含真实提交内容。\n"
+      }
+    },
+    "06_empty_report": {"remove": ["评审报告.md"], "add": {"评审报告.md": ""}}
+  }
+}

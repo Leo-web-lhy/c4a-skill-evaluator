@@ -1,0 +1,662 @@
+{
+  "caps_applied": [],
+  "deliverables": [
+    {
+      "empty": [],
+      "found": true,
+      "matched": [
+        "docs/2023108610260_C4A_方案设计.md",
+        "skill-evaluator/tests/golden/cases/01_perfect/docs/方案设计.md",
+        "skill-evaluator/tests/golden/cases/02_missing_aar/docs/方案设计.md",
+        "skill-evaluator/tests/golden/cases/03_missing_report/docs/方案设计.md",
+        "skill-evaluator/tests/golden/cases/04_no_ai_log/docs/方案设计.md",
+        "skill-evaluator/tests/golden/cases/05_no_iteration/docs/方案设计.md",
+        "skill-evaluator/tests/golden/cases/06_empty_report/docs/方案设计.md"
+      ],
+      "matched_count": 7,
+      "pattern": "*方案设计*"
+    },
+    {
+      "empty": [
+        "skill-evaluator/.scratch_r/log_05.txt",
+        "skill-evaluator/tests/golden/cases/01_perfect/tests/golden/02_missing_aar/README.md",
+        "skill-evaluator/tests/golden/cases/02_missing_aar/tests/golden/02_missing_aar/README.md",
+        "skill-evaluator/tests/golden/cases/03_missing_report/tests/golden/02_missing_aar/README.md",
+        "skill-evaluator/tests/golden/cases/04_no_ai_log/tests/golden/02_missing_aar/README.md",
+        "skill-evaluator/tests/golden/cases/05_no_iteration/tests/golden/02_missing_aar/README.md",
+        "skill-evaluator/tests/golden/cases/06_empty_report/tests/golden/02_missing_aar/README.md",
+        "skill-evaluator/tests/golden/cases/06_empty_report/评审报告.md"
+      ],
+      "found": true,
+      "matched": [
+        "skill-evaluator/.scratch_r/01/report.json",
+        "skill-evaluator/.scratch_r/01/report.md",
+        "skill-evaluator/.scratch_r/apply_patch.py",
+        "skill-evaluator/.scratch_r/case05_raw.txt",
+        "skill-evaluator/.scratch_r/log_05.txt",
+        "skill-evaluator/.scratch_r/log_base.txt",
+        "skill-evaluator/.scratch_r/patch_zh.json",
+        "skill-evaluator/evaluator.py",
+        "skill-evaluator/lib/collect.py",
+        "skill-evaluator/lib/deliverables.py",
+        "skill-evaluator/lib/render.py",
+        "skill-evaluator/lib/scoring.py",
+        "skill-evaluator/lib/signals.py",
+        "skill-evaluator/rubrics/c4a.json",
+        "skill-evaluator/tests/golden/build_fixtures.py",
+        "skill-evaluator/tests/golden/cases/01_perfect/AAR.md",
+        "skill-evaluator/tests/golden/cases/01_perfect/AI日志.md",
+        "skill-evaluator/tests/golden/cases/01_perfect/README.md",
+        "skill-evaluator/tests/golden/cases/01_perfect/docs/方案设计.md",
+        "skill-evaluator/tests/golden/cases/01_perfect/skill-evaluator/evaluator.py"
+      ],
+      "matched_count": 111,
+      "pattern": "*skill-evaluator*"
+    },
+    {
+      "empty": [
+        "skill-evaluator/tests/golden/cases/06_empty_report/评审报告.md"
+      ],
+      "found": true,
+      "matched": [
+        "skill-evaluator/tests/golden/cases/01_perfect/评审报告.md",
+        "skill-evaluator/tests/golden/cases/02_missing_aar/评审报告.md",
+        "skill-evaluator/tests/golden/cases/04_no_ai_log/评审报告.md",
+        "skill-evaluator/tests/golden/cases/05_no_iteration/评审报告.md",
+        "skill-evaluator/tests/golden/cases/06_empty_report/评审报告.md"
+      ],
+      "matched_count": 5,
+      "pattern": "*评审报告*"
+    },
+    {
+      "empty": [],
+      "found": true,
+      "matched": [
+        "AI日志.md",
+        "skill-evaluator/tests/golden/cases/01_perfect/AI日志.md",
+        "skill-evaluator/tests/golden/cases/02_missing_aar/AI日志.md",
+        "skill-evaluator/tests/golden/cases/03_missing_report/AI日志.md",
+        "skill-evaluator/tests/golden/cases/05_no_iteration/AI日志.md",
+        "skill-evaluator/tests/golden/cases/06_empty_report/AI日志.md"
+      ],
+      "matched_count": 6,
+      "pattern": "*AI日志*"
+    }
+  ],
+  "dimensions": [
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "evaluatorQuality",
+      "label": "评审器质量",
+      "max": 25,
+      "probes": [
+        {
+          "count": 6,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "skill-evaluator/tests/golden/cases/01_perfect/skill-evaluator/rubrics/rubric.json",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/tests/golden/cases/02_missing_aar/skill-evaluator/rubrics/rubric.json",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/tests/golden/cases/03_missing_report/skill-evaluator/rubrics/rubric.json",
+              "line": 1,
+              "snippet": ""
+            }
+          ],
+          "hit": true,
+          "id": "eval.rubric_external",
+          "note": "评分标准外置为可替换 JSON",
+          "weight": 4
+        },
+        {
+          "count": 97,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "skill-evaluator/tests/golden/build_fixtures.py",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/tests/golden/cases/01_perfect/AAR.md",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/tests/golden/cases/01_perfect/AI日志.md",
+              "line": 1,
+              "snippet": ""
+            }
+          ],
+          "hit": true,
+          "id": "eval.golden_set",
+          "note": "存在带标注的 Golden Set 测试用例（≥3）",
+          "weight": 5
+        },
+        {
+          "count": 3,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 66,
+              "snippet": "- 需要 3 个以上真实提交才能谈「误判率」的统计意义；当前 fp/fn=0/0 是 6 个受控用例上的结果，不等于线上零误判。"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 38,
+              "snippet": "2. `no_ai_log` 在**所有**用例上误报（FP=1 的来源）。表面看是探针没命中，实际是两件事叠加：① `ai.log_scale` 的 1500 字节门槛与我给的示例日志（1460 字节）差 40 字节；② 我改了 `fixtures.json` 却忘了重跑 `build_fixtures.py`，用例"
+            },
+            {
+              "file": "docs/2023108610260_C4A_方案设计.md",
+              "line": 69,
+              "snippet": "| evaluatorQuality 评审器质量 | 25 | 评分标准外置为 JSON(4) / 有测试用例目录(5) / 自测报告含误判率与用例数(8) / 输出结构化机读结果(4) / 同一输入重复运行结果一致(4) |"
+            }
+          ],
+          "hit": true,
+          "id": "eval.self_test_report",
+          "note": "自测报告给出量化误判率",
+          "weight": 8
+        },
+        {
+          "count": 8,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 12,
+              "snippet": "| 输出 | `report.json`（结构化）+ `report.md`（人读），每条结论带文件+行号+原文 |"
+            },
+            {
+              "file": "AAR.md",
+              "line": 44,
+              "snippet": "**突破**：`build_fixtures.py` / `apply_patch.py` 保持纯 ASCII，全部中文材料放进 `fixtures.json` 与 rubric JSON；控制台只打印 ASCII 统计行，明细写 UTF-8 文件后读文件。"
+            },
+            {
+              "file": "README.md",
+              "line": 3,
+              "snippet": "一个**确定性**的技能提交评审工具：给它一个提交目录，它按 C4A rubric 的五个维度打分，输出 `report.json`（机器可读）与 `report.md`（人可读），每条结论都带**文件 + 行号 + 原文片段**的证据。"
+            }
+          ],
+          "hit": true,
+          "id": "eval.structured_output",
+          "note": "输出结构化机读结果",
+          "weight": 4
+        },
+        {
+          "count": 6,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 5,
+              "snippet": "**目标**：做一个确定性、可复现、结论可复核的技能提交自动评审器，能在真实提交上给出带证据的分数，并且自己有误判率数据。"
+            },
+            {
+              "file": "AAR.md",
+              "line": 13,
+              "snippet": "| Golden Set | 6 用例全通过，`fp=0 fn=0`，两遍运行 `evidence_hash` 一致 |"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 51,
+              "snippet": "结果：`total=49/100`，`evaluatorQuality 8/25`、`artifactCompleteness 5/15`（`missing_artifacts` 封顶）、`deliverables=1/4`，`evidence_hash=d0ef143a0d266f92`。"
+            }
+          ],
+          "hit": true,
+          "id": "eval.determinism",
+          "note": "说明并验证同一输入结果一致",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 5,
+      "probes_total": 5,
+      "raw": 25,
+      "score": 25,
+      "score_final": 25
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "technicalExecution",
+      "label": "技术实现",
+      "max": 20,
+      "probes": [
+        {
+          "count": 23,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "skill-evaluator/lib/collect.py",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/lib/deliverables.py",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/lib/render.py",
+              "line": 1,
+              "snippet": ""
+            }
+          ],
+          "hit": true,
+          "id": "tech.layered_modules",
+          "note": "分层模块化实现",
+          "weight": 4
+        },
+        {
+          "count": 0,
+          "dimension": "technicalExecution",
+          "evidence": [],
+          "evidence_optional": true,
+          "hit": true,
+          "id": "tech.no_todo",
+          "note": "无 TODO/FIXME 残留",
+          "weight": 3
+        },
+        {
+          "count": 6,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 44,
+              "snippet": "try:"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 47,
+              "snippet": "except OSError:"
+            },
+            {
+              "file": "skill-evaluator/lib/collect.py",
+              "line": 28,
+              "snippet": "try:"
+            }
+          ],
+          "hit": true,
+          "id": "tech.error_handling",
+          "note": "含错误处理",
+          "weight": 4
+        },
+        {
+          "count": 4,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 15,
+              "snippet": "| 版本 | `c4a-evaluator/1.0.0` / rubric `C4A 1.0.0` |"
+            },
+            {
+              "file": "README.md",
+              "line": 6,
+              "snippet": "- 工具版本：`c4a-evaluator/1.0.0`"
+            },
+            {
+              "file": "README.md",
+              "line": 7,
+              "snippet": "- rubric 版本：`C4A 1.0.0`（`skill-evaluator/rubrics/c4a.json`）"
+            }
+          ],
+          "hit": true,
+          "id": "tech.version_manifest",
+          "note": "有版本号或变更记录",
+          "weight": 5
+        },
+        {
+          "count": 3,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 16,
+              "snippet": "import argparse"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 119,
+              "snippet": "def main(argv=None):"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 120,
+              "snippet": "ap = argparse.ArgumentParser(description=\"Deterministic C4A submission evaluator\")"
+            }
+          ],
+          "hit": true,
+          "id": "tech.cli_entry",
+          "note": "可执行入口",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 5,
+      "probes_total": 5,
+      "raw": 20,
+      "score": 20,
+      "score_final": 20
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "artifactCompleteness",
+      "label": "产物完整性",
+      "max": 15,
+      "probes": [
+        {
+          "count": 3699,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# C4A 技能提交自动评审器（skill-evaluator）"
+            },
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# C4A 技能提交自动评审器（skill-evaluator）"
+            },
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# C4A 技能提交自动评审器（skill-evaluator）"
+            }
+          ],
+          "hit": true,
+          "id": "art.deliverables_all",
+          "note": "必交物全命中（由 Layer 2 复核，见必交物表）",
+          "weight": 6
+        },
+        {
+          "count": 8,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "README.md",
+              "line": 28,
+              "snippet": "## 3. 快速开始"
+            },
+            {
+              "file": "README.md",
+              "line": 32,
+              "snippet": "python evaluator.py --submission ..\\..\\C9\\tabledoctor --out ..\\demo\\c9_tabledoctor --label c9_tabledoctor"
+            },
+            {
+              "file": "README.md",
+              "line": 44,
+              "snippet": "aiUsage                10/20"
+            }
+          ],
+          "hit": true,
+          "id": "art.readme_usage",
+          "note": "README 含安装与用法",
+          "weight": 5
+        },
+        {
+          "count": 4,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 119,
+              "snippet": "def main(argv=None):"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 159,
+              "snippet": "if __name__ == \"__main__\":"
+            },
+            {
+              "file": "skill-evaluator/tests/golden/build_fixtures.py",
+              "line": 26,
+              "snippet": "def main():"
+            }
+          ],
+          "hit": true,
+          "id": "art.entrypoint",
+          "note": "存在可运行入口",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 3,
+      "probes_total": 3,
+      "raw": 15,
+      "score": 15,
+      "score_final": 15
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "aiUsage",
+      "label": "AI 使用质量",
+      "max": 20,
+      "probes": [
+        {
+          "count": 5748,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 1,
+              "snippet": "size=5748 bytes"
+            }
+          ],
+          "hit": true,
+          "id": "ai.log_scale",
+          "note": "AI日志存在且成规模（≥1500 字节）",
+          "weight": 6
+        },
+        {
+          "count": 5,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 7,
+              "snippet": "## 第 1 轮：先定边界，再定做法"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 17,
+              "snippet": "## 第 2 轮：把评分拆成三层，并否掉 AI 的第一版顺序"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 29,
+              "snippet": "## 第 3 轮：Golden Set 与误判率"
+            }
+          ],
+          "hit": true,
+          "id": "ai.iteration_rounds",
+          "note": "记录 ≥3 轮迭代",
+          "weight": 5
+        },
+        {
+          "count": 5,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 9,
+              "snippet": "**Prompt（原文）**：我要做一个技能提交自动评审工具，给一个提交目录，按 rubric 打分。先别写代码，帮我列出这个工具绝对不该做什么。"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 19,
+              "snippet": "**Prompt（原文）**：请把评分拆成「收集 → 探针 → 评分」三层。探针只负责采证据，评分只认带证据的探针。"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 31,
+              "snippet": "**Prompt（原文）**：设计 6 个提交用例覆盖典型缺陷：理想提交、缺 AAR、缺评审报告、无 AI 日志、有日志无迭代、评审报告为空壳。跑一遍，FP 和 FN 都报出来，不要只报准确率。"
+            }
+          ],
+          "hit": true,
+          "id": "ai.prompt_records",
+          "note": "含 Prompt / 指令记录",
+          "weight": 5
+        },
+        {
+          "count": 4,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 43,
+              "snippet": "**失败保留**：上面三个缺陷和「改了 fixtures 忘重建用例」这个操作失误都留在本日志里，没有在最终版里删掉。"
+            },
+            {
+              "file": "skill-evaluator/tests/golden/cases/01_perfect/AI日志.md",
+              "line": 27,
+              "snippet": "## 失败与转向记录"
+            },
+            {
+              "file": "skill-evaluator/tests/golden/cases/01_perfect/AI日志.md",
+              "line": 33,
+              "snippet": "- 中途有一次把 glob 模式写错，探针在空目录上直接报错，改成先 collect 再匹配后复跑通过。"
+            }
+          ],
+          "hit": true,
+          "id": "ai.failure_turns",
+          "note": "记录失败与转向",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 4,
+      "probes_total": 4,
+      "raw": 20,
+      "score": 20,
+      "score_final": 20
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "reflectionQuality",
+      "label": "复盘质量",
+      "max": 20,
+      "probes": [
+        {
+          "count": 4944,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 1,
+              "snippet": "size=4944 bytes"
+            }
+          ],
+          "hit": true,
+          "id": "ref.aar_present",
+          "note": "存在 AAR / 复盘文档",
+          "weight": 4
+        },
+        {
+          "count": 8,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 17,
+              "snippet": "## 2. 卡点与突破"
+            },
+            {
+              "file": "AAR.md",
+              "line": 19,
+              "snippet": "### 卡点 1：探针没有「维度」字段，一跑就崩"
+            },
+            {
+              "file": "AAR.md",
+              "line": 25,
+              "snippet": "### 卡点 2：`no_ai_log` 在**所有**用例上误报，连满分用例都被判「没有 AI 日志」"
+            }
+          ],
+          "hit": true,
+          "id": "ref.concrete_blockers",
+          "note": "有具体卡点描述",
+          "weight": 6
+        },
+        {
+          "count": 4,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 36,
+              "snippet": "「压根没有日志」的用例同时触发两个红牌，语义上冗余：没日志已经被 `no_ai_log` 覆盖，`one_shot_ai` 应当只在「有日志但过薄且无迭代」时出现。"
+            },
+            {
+              "file": "AAR.md",
+              "line": 53,
+              "snippet": "## 4. 做错了什么 / 下次怎么改"
+            },
+            {
+              "file": "AAR.md",
+              "line": 55,
+              "snippet": "| 问题 | 根因 | 下次做法 |"
+            }
+          ],
+          "hit": true,
+          "id": "ref.actionable_plan",
+          "note": "有可执行的改进方案",
+          "weight": 6
+        },
+        {
+          "count": 5,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 5,
+              "snippet": "**目标**：做一个确定性、可复现、结论可复核的技能提交自动评审器，能在真实提交上给出带证据的分数，并且自己有误判率数据。"
+            },
+            {
+              "file": "AAR.md",
+              "line": 50,
+              "snippet": "3. **断言语义而不是断言魔数**：golden runner 检查的是「期望红牌集合一致 / 封顶不超过上限 / 总分落区间 / 05 的 aiUsage 必须低于基线 / 两遍必须一致」，不是「总分必须等于 100」。改 fixture 内容不会误判失败，改规则会。"
+            },
+            {
+              "file": "AAR.md",
+              "line": 59,
+              "snippet": "| 首次只在自造用例上验证 | 用例与实现同源，容易「自己考自己」 | 至少加一个来自真实提交的目标（本次已做：C9 tabledoctor） |"
+            }
+          ],
+          "hit": true,
+          "id": "ref.failure_kept",
+          "note": "记录被推翻的初判或失败用例",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 4,
+      "probes_total": 4,
+      "raw": 20,
+      "score": 20,
+      "score_final": 20
+    }
+  ],
+  "evaluator_version": "c4a-evaluator/1.0.0",
+  "evidence_hash": "f7e186d22f2a5a766b3889ddec19c3ea2d6d320d9ef43be520f31eb06beec8ba",
+  "file_count": 117,
+  "max_total": 100,
+  "red_flags": [],
+  "review_hints": [
+    "未发现明显缺口；仍建议人工抽查证据片段是否与实际文件一致。",
+    "本报告只做结构与证据层判定，不评价方案语义质量，也不代替打分决策。"
+  ],
+  "rubric_id": "C4A",
+  "rubric_version": "1.0.0",
+  "submission_dir": "C:\\.cogseed\\userWorkSpace\\我的挑战有哪些\\C4A\\2023108610260_C4A_skill-evaluator",
+  "title": "技能提交自动评审（结构证据版）",
+  "total": 100
+}

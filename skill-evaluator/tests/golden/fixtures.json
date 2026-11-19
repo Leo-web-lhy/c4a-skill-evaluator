@@ -1,0 +1,63 @@
+{
+  "_note": "语料与 fixture 内容全部放在这份 JSON 里（UTF-8），build_fixtures.py 保持纯 ASCII，避免本机中文控制台崩溃。",
+  "base": {
+    "files": {
+      "README.md": "# C4A skill-evaluator\n\n## 安装\n\n```bash\npip install -r requirements.txt\n```\n\n## 用法\n\n```bash\npython evaluator.py --submission ./提交目录 --out ./reports\n```\n\n输出 report.json 与 report.md。\n",
+      "docs/方案设计.md": "# C4A 技能提交自动评审 · 方案设计\n\n学号：2023108610260\n\n## 1 问题与边界\n\n技能提交一直是人肉判断，同一份提交两个人打分能差 20 分，且没人说得清扣分来自哪里。本方案只解决三个问题：必交物是否真的存在、结构证据是否齐备、扣分能否指到具体文件的具体行。\n\n明确不做的三件事：不评价方案语义质量、不自动拒绝任何提交、不替代教师打分。\n\n## 2 架构\n\n四层单向依赖：\n\n1. 采集层 collect：遍历目录，跳过 .git / node_modules，产出确定性排序的清单。\n2. 必交物层 deliverables：按平台同名规则（文件名通配，不看内容）判定是否存在与是否空壳。\n3. 探针层 signals：regex / absent / exists / size / count_files 五类探针，每条探针必须带证据。\n4. 评分层 scoring：维度封顶 + 红线封顶 + 复核建议。\n\n## 3 评分\n\n五个维度：评审器质量 25、技术实现 20、产物完整性 15、AI 使用质量 20、复盘质量 20，合计 100。\n\n维度分只在探针命中且有证据时累计，且不超过维度上限。原始分超过上限时记 capped=true，避免\"堆探针刷分\"。\n\n## 4 证据链与可复现\n\n无 LLM 调用、无网络、无时钟、无随机数，因此同一目录必然产出同一结论。\n\n每条结论都带 evidence（文件路径 + 行号 + 片段），报告头部记录 evidence_hash，取值为「版本号 + 每个文件的路径 / 字节数 / SHA-256」的哈希，任何人可以独立复算。\n\n## 5 误判控制\n\n- 宁可漏判，不可误判：探针没有证据就不给分。\n- 红线只做封顶，不做拒绝：触发后仍需人工确认。\n- 空壳判定阈值 20 字节，避免把 0 字节占位文件当成交付物。\n- 文件名匹配与平台一致，避免\"平台判 missing、工具判 present\"的双标。\n\n## 6 人机边界\n\n工具输出「扣了哪些分、证据在哪、需要人看什么」，最终打分与放行由人和教师决定。\n\n## 7 交付形态\n\n- skill-evaluator/：可独立运行的评审器\n- rubrics/c4a.json：评分标准外置，可替换\n- tests/golden/：带期望值的用例\n- 评审报告.md：真实提交上的运行结果\n- AI日志.md / AAR.md：协作记录与复盘\n",
+      "skill-evaluator/evaluator.py": "import argparse\nimport sys\n\ndef main(argv=None):\n    ap = argparse.ArgumentParser()\n    ap.add_argument(\"--submission\", required=True)\n    args = ap.parse_args(argv)\n    try:\n        run(args.submission)\n    except Exception as exc:\n        sys.stderr.write(\"failed: %s\\n\" % exc)\n        return 1\n    return 0\n\ndef run(path):\n    with open(path, \"r\", encoding=\"utf-8\") as fh:\n        return fh.read()\n\nif __name__ == \"__main__\":\n    raise SystemExit(main())\n",
+      "skill-evaluator/lib/collect.py": "import os\n\ndef collect(root):\n    files = []\n    for dirpath, _, names in os.walk(root):\n        for name in sorted(names):\n            files.append(os.path.join(dirpath, name))\n    return sorted(files)\n",
+      "skill-evaluator/lib/signals.py": "import re\n\ndef probe(pattern, text):\n    return [m.start() for m in re.finditer(pattern, text)]\n",
+      "skill-evaluator/lib/scoring.py": "def score(dim, probes):\n    raw = sum(p[\"weight\"] for p in probes if p[\"hit\"])\n    return min(raw, dim)\n",
+      "skill-evaluator/rubrics/rubric.json": "{\n  \"rubric_id\": \"C4A\",\n  \"version\": \"1.0.0\",\n  \"dimensions\": []\n}\n",
+      "评审报告.md": "# C4A 评审报告\n\n在 6 份真实提交上运行评审器，结果为机读 report.json + 人读 report.md。\n\n## 误判率\n\n- 假阳性 FP = 0\n- 假阴性 FN = 1\n- 误判率 = 1/6 = 16.7%\n\n唯一一处 FN 来自提交把 AAR 写进了方案设计文档内部，文件名里没有 AAR，工具按平台规则判为缺失；已在复核建议中提示人工确认，不做自动拒绝。\n\n## 一致性\n\n同一提交连续运行两次，evidence_hash 相同，维度分完全相同。\n",
+      "AI日志.md": "# C4A AI 日志\n\n## 第 1 轮：定边界\n\nPrompt：我想做一个技能提交自动评审工具，请先帮我列出它不该做什么。\n\nAI 给出四条：不评价语义、不自动拒绝、不猜缺失原因、不留无证据结论。我全部采纳，并要求每条结论必须带文件行号。\n\n## 第 2 轮：先写探针，再写评分\n\nPrompt：请把评分拆成探针 + 权重 + 上限三层，探针没有证据就不给分。\n\nAI 第一次给的实现是「先算总分再找证据」，我判定方向错误：这样证据永远可以事后补。要求改成证据优先，AI 重写为 signals.py 返回 evidence 列表，scoring.py 只认带 evidence 的探针。\n\n## 第 3 轮：误判率自测\n\nPrompt：用 6 个用例跑一遍，把 FP / FN 都报出来，不要只报准确率。\n\n第一版实现把「空壳文件」当成 present，导致 FP=1。修正：加入 20 字节阈值与 empty 字段，重跑 FP=0。\n\n## 第 4 轮：可复现\n\nPrompt：怎么证明两次运行结果一致？\n\nAI 建议加 evidence_hash，覆盖每个文件的路径、字节数与内容哈希。采纳，并把 hash 写进报告头部。\n\n## 失败与转向记录\n\n- 最初打算用 LLM 判断「方案写得好不好」，后来放弃：不可复现、无法复核。\n- 最初只输出 Markdown，人工无法批量处理，补了 report.json 结构化输出。\n- 最初把 AAR 缺失直接判不通过，改为只扣分 + 复核提示，避免误杀。\n\n- 中途有一次把 glob 模式写错，探针在空目录上直接报错，改成先 collect 再匹配后复跑通过。\n- 早期方案推翻过「直接读全文判分」的思路，改为结构化探针 + 证据链，理由是全文匹配无法定位到行。\n- 还有一次评分表权重加起来是 105，被自检脚本拦下，手工改成 100 并加了断言。\n",
+      "AAR.md": "# C4A AAR\n\n## 做对了什么\n\n把「打分」换成「证据 + 扣分 + 待人工确认」，评审器不再是黑箱。\n\n## 卡点\n\n1. 第一批用例全是自己造的「完美提交」，全部满分，等于没测。根因是用例与实现同源。\n2. 空壳文件判定最初只看是否存在，误判率 16.7%。\n3. 中文标签硬编码进源码后，本机控制台直接崩溃（0xC0000005），根因是控制台编码。\n\n## 首次判断被推翻\n\n最初以为「探针越多分越准」，实测发现探针堆叠会让同一事实被重复计分，于是加了维度上限与 capped 标记。\n\n## 改进\n\n- 用例改为 6 份不同缺陷的提交，其中 3 份来自真实提交的降级版本。\n- 标签外置到 rubrics/*.json，源码保持 ASCII，中文只存在于数据文件与 Markdown。\n- 下次增加：对「AAR 写在别的文档里」这类换名情况给出显式提示。\n",
+      "tests/golden/01_perfect/README.md": "case: 全部交付物齐备\n",
+      "tests/golden/02_missing_aar/README.md": "case: 缺 AAR\n",
+      "tests/golden/03_missing_report/README.md": "case: 缺评审报告\n",
+      "tests/golden/04_no_ai_log/README.md": "case: 无 AI 日志\n",
+      "tests/golden/05_no_iteration/README.md": "case: 有日志但无迭代\n",
+      "tests/golden/06_empty_report/README.md": "case: 评审报告为空壳\n"
+    }
+  },
+  "cases": {
+    "01_perfect": {
+      "remove": [],
+      "add": {}
+    },
+    "02_missing_aar": {
+      "remove": [
+        "AAR.md"
+      ],
+      "add": {}
+    },
+    "03_missing_report": {
+      "remove": [
+        "评审报告.md"
+      ],
+      "add": {}
+    },
+    "04_no_ai_log": {
+      "remove": [
+        "AI日志.md"
+      ],
+      "add": {}
+    },
+    "05_no_iteration": {
+      "remove": [
+        "AI日志.md"
+      ],
+      "add": {
+        "AI日志.md": "# C4A AI 日志\n\nPrompt：帮我设计一个技能提交自动评审工具，要求结论必须可复核。\n\nAI 给了一版四层结构（收集 / 探针 / 评分 / 报告），我采纳了整体骨架，但把「先算总分再找证据」改成「先拿证据再给分」，因为前者证据永远可以事后补。\n\nPrompt：再检查一下证据链是否闭合。\n\nAI 补了 evidence 字段、evidence_hash 与报告头部的版本号，我要求 hash 必须同时覆盖路径、字节数与内容。\n\nPrompt：把输出做成机器可读的格式。\n\nAI 加了 report.json，字段包括总分、每个维度的探针明细、红牌与复核问题；Markdown 报告由 JSON 渲染，保证两者不会互相矛盾。\n\n协作方式：我负责定义边界（不评价语义、不自动拒绝、不猜缺失原因）与验收标准，AI 负责实现细节与边界用例；每个结论我都要求带文件与行号，否则不允许出现在报告里。\n\n失败与报错：第一版把零字节文件当成已提交，导致误判，已修正为 20 字节阈值并补充 empty 字段；另有一次夹具生成脚本路径写错，直接报错退出，改成相对路径后恢复。\n\n关于可复现：工具无网络、无时钟、无随机数，同一份提交两次运行结果一致，evidence_hash 稳定。\n\n关于边界：工具只给扣分与复核问题，不做自动淘汰，最终判断权留给课程评审者。\n\n补充说明：本文件用于演示「有日志但缺少多轮改进记录」的情形，因此只记录需求与一次修正，不记录改进轮次编号。\n\n再次确认：本文件仅作为 Golden Set 的降级用例，不代表真实提交的完整日志。\n"
+      }
+    },
+    "06_empty_report": {
+      "remove": [
+        "评审报告.md"
+      ],
+      "add": {
+        "评审报告.md": ""
+      }
+    }
+  }
+}

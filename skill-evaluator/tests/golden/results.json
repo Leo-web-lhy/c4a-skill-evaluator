@@ -1,0 +1,109 @@
+{
+  "cases": 6,
+  "deterministic": true,
+  "failed": 0,
+  "false_negative": 0,
+  "false_positive": 0,
+  "fn_rate": 0.0,
+  "fp_rate": 0.0,
+  "passed": 6,
+  "results": [
+    {
+      "case": "01_perfect",
+      "dimensions": {
+        "aiUsage": 20,
+        "artifactCompleteness": 15,
+        "evaluatorQuality": 25,
+        "reflectionQuality": 20,
+        "technicalExecution": 20
+      },
+      "evidence_hash": "07cf41decf59cefd0237094a4cdae0b59f6e425d389765825789a276685b4db1",
+      "flags": [],
+      "problems": [],
+      "status": "PASS",
+      "total": 100
+    },
+    {
+      "case": "02_missing_aar",
+      "dimensions": {
+        "aiUsage": 20,
+        "artifactCompleteness": 15,
+        "evaluatorQuality": 25,
+        "reflectionQuality": 0,
+        "technicalExecution": 20
+      },
+      "evidence_hash": "e7b1b075c8635f8561636a72f98445d8e055642c5bf5f1fc15724922f68e20f1",
+      "flags": [],
+      "problems": [],
+      "status": "PASS",
+      "total": 80
+    },
+    {
+      "case": "03_missing_report",
+      "dimensions": {
+        "aiUsage": 20,
+        "artifactCompleteness": 5,
+        "evaluatorQuality": 25,
+        "reflectionQuality": 20,
+        "technicalExecution": 20
+      },
+      "evidence_hash": "23a014c886f7f27d30bd18b02b04e8f3d43e3ca86079c8aaeae8d0d102c3c89a",
+      "flags": [
+        "missing_artifacts"
+      ],
+      "problems": [],
+      "status": "PASS",
+      "total": 90
+    },
+    {
+      "case": "04_no_ai_log",
+      "dimensions": {
+        "aiUsage": 0,
+        "artifactCompleteness": 5,
+        "evaluatorQuality": 25,
+        "reflectionQuality": 5,
+        "technicalExecution": 20
+      },
+      "evidence_hash": "be13765d1f98940f6812be79f1f001bcb9f3aa05642cc53c63fe5bba802719b3",
+      "flags": [
+        "missing_artifacts",
+        "no_ai_log"
+      ],
+      "problems": [],
+      "status": "PASS",
+      "total": 55
+    },
+    {
+      "case": "05_no_iteration",
+      "dimensions": {
+        "aiUsage": 15,
+        "artifactCompleteness": 15,
+        "evaluatorQuality": 25,
+        "reflectionQuality": 20,
+        "technicalExecution": 20
+      },
+      "evidence_hash": "26e8ba6e4047548b568b3f2f810e09f6368093c132e8ab29261053ccb101c8a1",
+      "flags": [],
+      "problems": [],
+      "status": "PASS",
+      "total": 95
+    },
+    {
+      "case": "06_empty_report",
+      "dimensions": {
+        "aiUsage": 20,
+        "artifactCompleteness": 5,
+        "evaluatorQuality": 25,
+        "reflectionQuality": 20,
+        "technicalExecution": 20
+      },
+      "evidence_hash": "e86b8f587573a305bfd38b0330a60a198414ccf2274b00de9a62d873e2210a9e",
+      "flags": [
+        "missing_artifacts"
+      ],
+      "problems": [],
+      "status": "PASS",
+      "total": 90
+    }
+  ]
+}

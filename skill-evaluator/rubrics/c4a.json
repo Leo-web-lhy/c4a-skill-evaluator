@@ -1,0 +1,140 @@
+{
+  "rubric_id": "C4A",
+  "version": "1.0.0",
+  "title": "技能提交自动评审（结构证据版）",
+  "redFlags": [
+    {"id": "missing_artifacts", "label": "核心交付物缺失或空壳", "dimension": "artifactCompleteness", "cap": 5},
+    {"id": "no_ai_log", "label": "无 AI 使用记录", "dimension": "reflectionQuality", "cap": 5},
+    {"id": "one_shot_ai", "label": "一句话指令直接提交、无迭代", "dimension": "aiUsage", "cap": 5}
+  ],
+  "dimensions": [
+    {
+      "id": "evaluatorQuality",
+      "label": "评审器质量",
+      "maxPoints": 25,
+      "probes": [
+        {"id": "eval.rubric_external", "kind": "exists", "weight": 4,
+         "patterns": ["*rubric*.json", "**/*rubric*.json"], "minFiles": 1,
+         "note": "评分标准外置为可替换 JSON"},
+        {"id": "eval.golden_set", "kind": "count_files", "weight": 5,
+         "patterns": ["tests/golden/**", "**/golden/**"], "minCount": 3,
+         "note": "存在带标注的 Golden Set 测试用例（≥3）"},
+        {"id": "eval.self_test_report", "kind": "regex", "weight": 8,
+         "glob": ["*.md", "docs/*.md"],
+         "pattern": "(误判率|false.?(positive|negative).?rate|FP|FN)[^\\n]{0,40}(=|：|:|是)?\\s*\\d",
+         "minCount": 2,
+         "note": "自测报告给出量化误判率"},
+        {"id": "eval.structured_output", "kind": "regex", "weight": 4,
+         "glob": ["*.md", "docs/*.md", "*.json"],
+         "pattern": "(report\\.json|机读|结构化输出|JSON)",
+         "minCount": 1,
+         "note": "输出结构化机读结果"},
+        {"id": "eval.determinism", "kind": "regex", "weight": 4,
+         "glob": ["*.md", "docs/*.md"],
+         "pattern": "(evidence_hash|确定性|可复算|reproduc)",
+         "minCount": 1,
+         "note": "说明并验证同一输入结果一致"}
+      ]
+    },
+    {
+      "id": "technicalExecution",
+      "label": "技术实现",
+      "maxPoints": 20,
+      "probes": [
+        {"id": "tech.layered_modules", "kind": "count_files", "weight": 4,
+         "patterns": ["**/lib/*.py", "src/**/*.py"], "minCount": 3,
+         "note": "分层模块化实现"},
+        {"id": "tech.no_todo", "kind": "absent", "weight": 3,
+         "glob": ["*.py", "**/*.py"],
+         "pattern": "(TODO|FIXME|XXX-)",
+         "note": "无 TODO/FIXME 残留"},
+        {"id": "tech.error_handling", "kind": "regex", "weight": 4,
+         "glob": ["*.py", "**/*.py"],
+         "pattern": "(try:|except\\s)",
+         "minCount": 2,
+         "note": "含错误处理"},
+        {"id": "tech.version_manifest", "kind": "regex", "weight": 5,
+         "glob": ["*.md"],
+         "pattern": "(版本|version|变更记录|CHANGELOG|v\\d+\\.\\d+\\.\\d+)",
+         "minCount": 1,
+         "note": "有版本号或变更记录"},
+        {"id": "tech.cli_entry", "kind": "regex", "weight": 4,
+         "glob": ["*.py"],
+         "pattern": "(argparse|sys\\.argv|def main\\()",
+         "minCount": 1,
+         "note": "可执行入口"}
+      ]
+    },
+    {
+      "id": "artifactCompleteness",
+      "label": "产物完整性",
+      "maxPoints": 15,
+      "probes": [
+        {"id": "art.deliverables_all", "kind": "regex", "weight": 6,
+         "glob": ["README.md"], "pattern": ".", "minCount": 1,
+         "note": "必交物全命中（由 Layer 2 复核，见必交物表）"},
+        {"id": "art.readme_usage", "kind": "regex", "weight": 5,
+         "glob": ["README.md"],
+         "pattern": "(pip install|npm install|python .*\\.py|用法|Usage|快速开始|安装)",
+         "minCount": 2,
+         "note": "README 含安装与用法"},
+        {"id": "art.entrypoint", "kind": "regex", "weight": 4,
+         "glob": ["*.py", "**/*.py"],
+         "pattern": "(if __name__ == ['\\\"]__main__['\\\"]|def main\\()",
+         "minCount": 1,
+         "note": "存在可运行入口"}
+      ]
+    },
+    {
+      "id": "aiUsage",
+      "label": "AI 使用质量",
+      "maxPoints": 20,
+      "probes": [
+        {"id": "ai.log_scale", "kind": "size", "weight": 6,
+         "patterns": ["*AI日志*", "*AI-LOG*"], "minBytes": 1500,
+         "note": "AI日志存在且成规模（≥1500 字节）"},
+        {"id": "ai.iteration_rounds", "kind": "regex", "weight": 5,
+         "glob": ["*AI日志*"],
+         "pattern": "(第\\s*\\d+\\s*轮|Round\\s*\\d|迭代\\s*\\d)",
+         "minCount": 3,
+         "note": "记录 ≥3 轮迭代"},
+        {"id": "ai.prompt_records", "kind": "regex", "weight": 5,
+         "glob": ["*AI日志*"],
+         "pattern": "(Prompt|提示词|指令：|我说|要求 AI)",
+         "minCount": 3,
+         "note": "含 Prompt / 指令记录"},
+        {"id": "ai.failure_turns", "kind": "regex", "weight": 4,
+         "glob": ["*AI日志*"],
+         "pattern": "(失败|报错|崩溃|不成立|推翻|改口|走错)",
+         "minCount": 2,
+         "note": "记录失败与转向"}
+      ]
+    },
+    {
+      "id": "reflectionQuality",
+      "label": "复盘质量",
+      "maxPoints": 20,
+      "probes": [
+        {"id": "ref.aar_present", "kind": "size", "weight": 4,
+         "patterns": ["*AAR*", "*复盘*"], "minBytes": 800,
+         "note": "存在 AAR / 复盘文档"},
+        {"id": "ref.concrete_blockers", "kind": "regex", "weight": 6,
+         "glob": ["*AAR*", "*复盘*"],
+         "pattern": "(卡点|问题|失败|踩坑|根因)",
+         "minCount": 3,
+         "note": "有具体卡点描述"},
+        {"id": "ref.actionable_plan", "kind": "regex", "weight": 6,
+         "glob": ["*AAR*", "*复盘*"],
+         "pattern": "(下次|改进|下一步|应当|将改为|落地)",
+         "minCount": 2,
+         "note": "有可执行的改进方案"},
+        {"id": "ref.failure_kept", "kind": "regex", "weight": 4,
+         "glob": ["*AAR*", "*复盘*"],
+         "pattern": "(首次|第一次|最初|原本以为|误判)",
+         "minCount": 1,
+         "note": "记录被推翻的初判或失败用例"}
+      ]
+    }
+  ],
+  "requiredDeliverables": "*方案设计*,*skill-evaluator*,*评审报告*,*AI日志*"
+}

@@ -1,0 +1,612 @@
+{
+  "caps_applied": [
+    {
+      "dimension": "reflectionQuality",
+      "from": 20,
+      "reason": "no_ai_log",
+      "to": 5
+    }
+  ],
+  "deliverables": [
+    {
+      "empty": [],
+      "found": true,
+      "matched": [
+        "docs/方案设计.md"
+      ],
+      "matched_count": 1,
+      "pattern": "*方案设计*"
+    },
+    {
+      "empty": [],
+      "found": true,
+      "matched": [
+        "skill-evaluator/evaluator.py",
+        "skill-evaluator/lib/collect.py",
+        "skill-evaluator/lib/scoring.py",
+        "skill-evaluator/lib/signals.py",
+        "skill-evaluator/rubrics/rubric.json"
+      ],
+      "matched_count": 5,
+      "pattern": "*skill-evaluator*"
+    },
+    {
+      "empty": [],
+      "found": true,
+      "matched": [
+        "评审报告.md"
+      ],
+      "matched_count": 1,
+      "pattern": "*评审报告*"
+    },
+    {
+      "empty": [],
+      "found": true,
+      "matched": [
+        "AI日志.md"
+      ],
+      "matched_count": 1,
+      "pattern": "*AI日志*"
+    }
+  ],
+  "dimensions": [
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "evaluatorQuality",
+      "label": "评审器质量",
+      "max": 25,
+      "probes": [
+        {
+          "count": 1,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "skill-evaluator/rubrics/rubric.json",
+              "line": 1,
+              "snippet": ""
+            }
+          ],
+          "hit": true,
+          "id": "eval.rubric_external",
+          "note": "评分标准外置为可替换 JSON",
+          "weight": 4
+        },
+        {
+          "count": 6,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "tests/golden/01_perfect/README.md",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "tests/golden/02_missing_aar/README.md",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "tests/golden/03_missing_report/README.md",
+              "line": 1,
+              "snippet": ""
+            }
+          ],
+          "hit": true,
+          "id": "eval.golden_set",
+          "note": "存在带标注的 Golden Set 测试用例（≥3）",
+          "weight": 5
+        },
+        {
+          "count": 5,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 10,
+              "snippet": "2. 空壳文件判定最初只看是否存在，误判率 16.7%。\n3. 中文标签硬编码进源码后，本机控制台直接崩溃（0xC0000005），根因是控制台编码。"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 19,
+              "snippet": "第一版实现把「空壳文件」当成 present，导致 FP=1。修正：加入 20 字节阈值与 empty 字段，重跑 FP=0。"
+            },
+            {
+              "file": "评审报告.md",
+              "line": 7,
+              "snippet": "- 假阳性 FP = 0"
+            }
+          ],
+          "hit": true,
+          "id": "eval.self_test_report",
+          "note": "自测报告给出量化误判率",
+          "weight": 8
+        },
+        {
+          "count": 3,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 30,
+              "snippet": "- 最初只输出 Markdown，人工无法批量处理，补了 report.json 结构化输出。"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 30,
+              "snippet": "- 最初只输出 Markdown，人工无法批量处理，补了 report.json 结构化输出。"
+            },
+            {
+              "file": "README.md",
+              "line": 15,
+              "snippet": "输出 report.json 与 report.md。"
+            }
+          ],
+          "hit": true,
+          "id": "eval.structured_output",
+          "note": "输出结构化机读结果",
+          "weight": 4
+        },
+        {
+          "count": 3,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 25,
+              "snippet": "AI 建议加 evidence_hash，覆盖每个文件的路径、字节数与内容哈希。采纳，并把 hash 写进报告头部。"
+            },
+            {
+              "file": "docs/方案设计.md",
+              "line": 15,
+              "snippet": "1. 采集层 collect：遍历目录，跳过 .git / node_modules，产出确定性排序的清单。"
+            },
+            {
+              "file": "docs/方案设计.md",
+              "line": 30,
+              "snippet": "每条结论都带 evidence（文件路径 + 行号 + 片段），报告头部记录 evidence_hash，取值为「版本号 + 每个文件的路径 / 字节数 / SHA-256」的哈希，任何人可以独立复算。"
+            }
+          ],
+          "hit": true,
+          "id": "eval.determinism",
+          "note": "说明并验证同一输入结果一致",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 5,
+      "probes_total": 5,
+      "raw": 25,
+      "score": 25,
+      "score_final": 25
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "technicalExecution",
+      "label": "技术实现",
+      "max": 20,
+      "probes": [
+        {
+          "count": 3,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "skill-evaluator/lib/collect.py",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/lib/scoring.py",
+              "line": 1,
+              "snippet": ""
+            },
+            {
+              "file": "skill-evaluator/lib/signals.py",
+              "line": 1,
+              "snippet": ""
+            }
+          ],
+          "hit": true,
+          "id": "tech.layered_modules",
+          "note": "分层模块化实现",
+          "weight": 4
+        },
+        {
+          "count": 0,
+          "dimension": "technicalExecution",
+          "evidence": [],
+          "evidence_optional": true,
+          "hit": true,
+          "id": "tech.no_todo",
+          "note": "无 TODO/FIXME 残留",
+          "weight": 3
+        },
+        {
+          "count": 2,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 8,
+              "snippet": "try:"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 10,
+              "snippet": "except Exception as exc:"
+            }
+          ],
+          "hit": true,
+          "id": "tech.error_handling",
+          "note": "含错误处理",
+          "weight": 4
+        },
+        {
+          "count": 2,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 19,
+              "snippet": "- 用例改为 6 份不同缺陷的提交，其中 3 份来自真实提交的降级版本。"
+            },
+            {
+              "file": "docs/方案设计.md",
+              "line": 30,
+              "snippet": "每条结论都带 evidence（文件路径 + 行号 + 片段），报告头部记录 evidence_hash，取值为「版本号 + 每个文件的路径 / 字节数 / SHA-256」的哈希，任何人可以独立复算。"
+            }
+          ],
+          "hit": true,
+          "id": "tech.version_manifest",
+          "note": "有版本号或变更记录",
+          "weight": 5
+        },
+        {
+          "count": 3,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 1,
+              "snippet": "import argparse"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 4,
+              "snippet": "def main(argv=None):"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 5,
+              "snippet": "ap = argparse.ArgumentParser()"
+            }
+          ],
+          "hit": true,
+          "id": "tech.cli_entry",
+          "note": "可执行入口",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 5,
+      "probes_total": 5,
+      "raw": 20,
+      "score": 20,
+      "score_final": 20
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "artifactCompleteness",
+      "label": "产物完整性",
+      "max": 15,
+      "probes": [
+        {
+          "count": 164,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# C4A skill-evaluator"
+            },
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# C4A skill-evaluator"
+            },
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# C4A skill-evaluator"
+            }
+          ],
+          "hit": true,
+          "id": "art.deliverables_all",
+          "note": "必交物全命中（由 Layer 2 复核，见必交物表）",
+          "weight": 6
+        },
+        {
+          "count": 4,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "README.md",
+              "line": 3,
+              "snippet": "## 安装"
+            },
+            {
+              "file": "README.md",
+              "line": 6,
+              "snippet": "pip install -r requirements.txt"
+            },
+            {
+              "file": "README.md",
+              "line": 9,
+              "snippet": "## 用法"
+            }
+          ],
+          "hit": true,
+          "id": "art.readme_usage",
+          "note": "README 含安装与用法",
+          "weight": 5
+        },
+        {
+          "count": 2,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 4,
+              "snippet": "def main(argv=None):"
+            },
+            {
+              "file": "skill-evaluator/evaluator.py",
+              "line": 19,
+              "snippet": "if __name__ == \"__main__\":"
+            }
+          ],
+          "hit": true,
+          "id": "art.entrypoint",
+          "note": "存在可运行入口",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 3,
+      "probes_total": 3,
+      "raw": 15,
+      "score": 15,
+      "score_final": 15
+    },
+    {
+      "capped": false,
+      "deductions": [
+        {
+          "note": "AI日志存在且成规模（≥1500 字节）",
+          "probe": "ai.log_scale",
+          "weight": 6
+        },
+        {
+          "note": "记录失败与转向",
+          "probe": "ai.failure_turns",
+          "weight": 4
+        }
+      ],
+      "id": "aiUsage",
+      "label": "AI 使用质量",
+      "max": 20,
+      "probes": [
+        {
+          "count": 1460,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 1,
+              "snippet": "size=1460 bytes"
+            }
+          ],
+          "hit": false,
+          "id": "ai.log_scale",
+          "note": "AI日志存在且成规模（≥1500 字节）",
+          "weight": 6
+        },
+        {
+          "count": 4,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 3,
+              "snippet": "## 第 1 轮：定边界"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 9,
+              "snippet": "## 第 2 轮：先写探针，再写评分"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 15,
+              "snippet": "## 第 3 轮：误判率自测"
+            }
+          ],
+          "hit": true,
+          "id": "ai.iteration_rounds",
+          "note": "记录 ≥3 轮迭代",
+          "weight": 5
+        },
+        {
+          "count": 4,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 5,
+              "snippet": "Prompt：我想做一个技能提交自动评审工具，请先帮我列出它不该做什么。"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 11,
+              "snippet": "Prompt：请把评分拆成探针 + 权重 + 上限三层，探针没有证据就不给分。"
+            },
+            {
+              "file": "AI日志.md",
+              "line": 17,
+              "snippet": "Prompt：用 6 个用例跑一遍，把 FP / FN 都报出来，不要只报准确率。"
+            }
+          ],
+          "hit": true,
+          "id": "ai.prompt_records",
+          "note": "含 Prompt / 指令记录",
+          "weight": 5
+        },
+        {
+          "count": 1,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "AI日志.md",
+              "line": 27,
+              "snippet": "## 失败与转向记录"
+            }
+          ],
+          "hit": false,
+          "id": "ai.failure_turns",
+          "note": "记录失败与转向",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 2,
+      "probes_total": 4,
+      "raw": 10,
+      "score": 10,
+      "score_final": 10
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "reflectionQuality",
+      "label": "复盘质量",
+      "max": 20,
+      "probes": [
+        {
+          "count": 907,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 1,
+              "snippet": "size=907 bytes"
+            }
+          ],
+          "hit": true,
+          "id": "ref.aar_present",
+          "note": "存在 AAR / 复盘文档",
+          "weight": 4
+        },
+        {
+          "count": 3,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 7,
+              "snippet": "## 卡点"
+            },
+            {
+              "file": "AAR.md",
+              "line": 9,
+              "snippet": "1. 第一批用例全是自己造的「完美提交」，全部满分，等于没测。根因是用例与实现同源。"
+            },
+            {
+              "file": "AAR.md",
+              "line": 11,
+              "snippet": "3. 中文标签硬编码进源码后，本机控制台直接崩溃（0xC0000005），根因是控制台编码。"
+            }
+          ],
+          "hit": true,
+          "id": "ref.concrete_blockers",
+          "note": "有具体卡点描述",
+          "weight": 6
+        },
+        {
+          "count": 2,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 17,
+              "snippet": "## 改进"
+            },
+            {
+              "file": "AAR.md",
+              "line": 21,
+              "snippet": "- 下次增加：对「AAR 写在别的文档里」这类换名情况给出显式提示。"
+            }
+          ],
+          "hit": true,
+          "id": "ref.actionable_plan",
+          "note": "有可执行的改进方案",
+          "weight": 6
+        },
+        {
+          "count": 4,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "AAR.md",
+              "line": 10,
+              "snippet": "2. 空壳文件判定最初只看是否存在，误判率 16.7%。"
+            },
+            {
+              "file": "AAR.md",
+              "line": 10,
+              "snippet": "2. 空壳文件判定最初只看是否存在，误判率 16.7%。"
+            },
+            {
+              "file": "AAR.md",
+              "line": 13,
+              "snippet": "## 首次判断被推翻"
+            }
+          ],
+          "hit": true,
+          "id": "ref.failure_kept",
+          "note": "记录被推翻的初判或失败用例",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 4,
+      "probes_total": 4,
+      "raw": 20,
+      "score": 20,
+      "score_final": 5
+    }
+  ],
+  "evaluator_version": "c4a-evaluator/1.0.0",
+  "evidence_hash": "0ede19b861641d284cc792577db686691ce2623501144a9b93a6148602c11b6d",
+  "file_count": 16,
+  "max_total": 100,
+  "red_flags": [
+    {
+      "cap": 5,
+      "dimension": "reflectionQuality",
+      "evidence": {
+        "ai_log_scale": 1460
+      },
+      "id": "no_ai_log",
+      "label": "无 AI 使用记录",
+      "triggered": true
+    }
+  ],
+  "review_hints": [
+    "红线「无 AI 使用记录」已触发（reflectionQuality 封顶 5），请复核证据后决定是否放行。",
+    "[AI 使用质量] 未得分探针 `ai.log_scale`（-6）：AI日志存在且成规模（≥1500 字节） —— 请人工判断是漏交还是本就不适用。",
+    "[AI 使用质量] 未得分探针 `ai.failure_turns`（-4）：记录失败与转向 —— 请人工判断是漏交还是本就不适用。",
+    "本报告只做结构与证据层判定，不评价方案语义质量，也不代替打分决策。"
+  ],
+  "rubric_id": "C4A",
+  "rubric_version": "1.0.0",
+  "submission_dir": "C:\\.cogseed\\userWorkSpace\\我的挑战有哪些\\C4A\\2023108610260_C4A_skill-evaluator\\skill-evaluator\\tests\\golden\\cases\\01_perfect",
+  "title": "技能提交自动评审（结构证据版）",
+  "total": 75
+}

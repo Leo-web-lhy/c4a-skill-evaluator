@@ -1,0 +1,562 @@
+{
+  "caps_applied": [
+    {
+      "dimension": "artifactCompleteness",
+      "from": 15,
+      "reason": "missing_artifacts",
+      "to": 5
+    }
+  ],
+  "deliverables": [
+    {
+      "empty": [],
+      "found": false,
+      "matched": [],
+      "matched_count": 0,
+      "pattern": "*方案设计*"
+    },
+    {
+      "empty": [],
+      "found": false,
+      "matched": [],
+      "matched_count": 0,
+      "pattern": "*skill-evaluator*"
+    },
+    {
+      "empty": [],
+      "found": false,
+      "matched": [],
+      "matched_count": 0,
+      "pattern": "*评审报告*"
+    },
+    {
+      "empty": [],
+      "found": true,
+      "matched": [
+        "2023108610260_C9_AI日志.md"
+      ],
+      "matched_count": 1,
+      "pattern": "*AI日志*"
+    }
+  ],
+  "dimensions": [
+    {
+      "capped": false,
+      "deductions": [
+        {
+          "note": "评分标准外置为可替换 JSON",
+          "probe": "eval.rubric_external",
+          "weight": 4
+        },
+        {
+          "note": "存在带标注的 Golden Set 测试用例（≥3）",
+          "probe": "eval.golden_set",
+          "weight": 5
+        },
+        {
+          "note": "自测报告给出量化误判率",
+          "probe": "eval.self_test_report",
+          "weight": 8
+        }
+      ],
+      "id": "evaluatorQuality",
+      "label": "评审器质量",
+      "max": 25,
+      "probes": [
+        {
+          "count": 0,
+          "dimension": "evaluatorQuality",
+          "evidence": [],
+          "hit": false,
+          "id": "eval.rubric_external",
+          "note": "评分标准外置为可替换 JSON",
+          "weight": 4
+        },
+        {
+          "count": 0,
+          "dimension": "evaluatorQuality",
+          "evidence": [],
+          "hit": false,
+          "id": "eval.golden_set",
+          "note": "存在带标注的 Golden Set 测试用例（≥3）",
+          "weight": 5
+        },
+        {
+          "count": 0,
+          "dimension": "evaluatorQuality",
+          "evidence": [],
+          "hit": false,
+          "id": "eval.self_test_report",
+          "note": "自测报告给出量化误判率",
+          "weight": 8
+        },
+        {
+          "count": 3,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 52,
+              "snippet": "**处理**：源码保持纯 ASCII，中文全部外置到 `tabledoctor/i18n.json`，控制台输出走 `unicode_escape` 转义，HTML 用 UTF-8。三类产物（终端 ASCII / JSON UTF-8 / HTML UTF-8）各走各的通道。"
+            },
+            {
+              "file": "2023108610260_C9_AI日志.md",
+              "line": 48,
+              "snippet": "结构按职责切分：`loader`（读表 + 编码探测 + 列宽对齐）/ `checks`（9 条规则）/ `report`（JSON + 单文件 HTML）/ `cli`。"
+            },
+            {
+              "file": "2023108610260_C9_AI日志.md",
+              "line": 111,
+              "snippet": "| `reports/` | 三份真实运行报告（HTML + JSON） |"
+            }
+          ],
+          "hit": true,
+          "id": "eval.structured_output",
+          "note": "输出结构化机读结果",
+          "weight": 4
+        },
+        {
+          "count": 3,
+          "dimension": "evaluatorQuality",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 18,
+              "snippet": "| 有可复算的召回率数据 | 最终 recall=1.0000 / precision=1.0000 / injected=19 / matched=19 / false_pos=0 | 达成，但**首轮失败** |"
+            },
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 22,
+              "snippet": "计划外新增：注入式样例生成器（`gen.py`）+ 账本比对器（`evaluate.py`）。这是为了\"召回可复算\"才临时加的，事后看是本项目最有价值的部分——没有它，全部交付物只能证明\"能跑\"，不能证明\"有用\"。"
+            },
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 65,
+              "snippet": "4. **阈值可复算**。9 条规则的阈值全部硬编码并写进 README，没有\"AI 觉得这里有问题\"的黑箱判断。"
+            }
+          ],
+          "hit": true,
+          "id": "eval.determinism",
+          "note": "说明并验证同一输入结果一致",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 2,
+      "probes_total": 5,
+      "raw": 8,
+      "score": 8,
+      "score_final": 8
+    },
+    {
+      "capped": false,
+      "deductions": [
+        {
+          "note": "分层模块化实现",
+          "probe": "tech.layered_modules",
+          "weight": 4
+        }
+      ],
+      "id": "technicalExecution",
+      "label": "技术实现",
+      "max": 20,
+      "probes": [
+        {
+          "count": 0,
+          "dimension": "technicalExecution",
+          "evidence": [],
+          "hit": false,
+          "id": "tech.layered_modules",
+          "note": "分层模块化实现",
+          "weight": 4
+        },
+        {
+          "count": 0,
+          "dimension": "technicalExecution",
+          "evidence": [],
+          "evidence_optional": true,
+          "hit": true,
+          "id": "tech.no_todo",
+          "note": "无 TODO/FIXME 残留",
+          "weight": 3
+        },
+        {
+          "count": 4,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "tabledoctor/loader.py",
+              "line": 42,
+              "snippet": "try:"
+            },
+            {
+              "file": "tabledoctor/loader.py",
+              "line": 51,
+              "snippet": "except UnicodeDecodeError as exc:"
+            },
+            {
+              "file": "tests/test_checks.py",
+              "line": 28,
+              "snippet": "try:"
+            }
+          ],
+          "hit": true,
+          "id": "tech.error_handling",
+          "note": "含错误处理",
+          "weight": 4
+        },
+        {
+          "count": 3,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_mvp.md",
+              "line": 4,
+              "snippet": "版本：v0.1.0"
+            },
+            {
+              "file": "2023108610260_C9_mvp.md",
+              "line": 4,
+              "snippet": "版本：v0.1.0"
+            },
+            {
+              "file": "2023108610260_C9_mvp.md",
+              "line": 113,
+              "snippet": "| JSON 报告 | 键：`file` / `path` / `rows` / `columns` / `header` / `encoding` / `delimiter` / `issues` / `counts` / `score` / `tool` / `version` / `generated_at` |"
+            }
+          ],
+          "hit": true,
+          "id": "tech.version_manifest",
+          "note": "有版本号或变更记录",
+          "weight": 5
+        },
+        {
+          "count": 5,
+          "dimension": "technicalExecution",
+          "evidence": [
+            {
+              "file": "fixtures/evaluate.py",
+              "line": 57,
+              "snippet": "def main():"
+            },
+            {
+              "file": "fixtures/gen.py",
+              "line": 104,
+              "snippet": "def main():"
+            },
+            {
+              "file": "tabledoctor/cli.py",
+              "line": 3,
+              "snippet": "import argparse"
+            }
+          ],
+          "hit": true,
+          "id": "tech.cli_entry",
+          "note": "可执行入口",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 4,
+      "probes_total": 5,
+      "raw": 16,
+      "score": 16,
+      "score_final": 16
+    },
+    {
+      "capped": false,
+      "deductions": [],
+      "id": "artifactCompleteness",
+      "label": "产物完整性",
+      "max": 15,
+      "probes": [
+        {
+          "count": 4055,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# TableDoctor（脏表医生）"
+            },
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# TableDoctor（脏表医生）"
+            },
+            {
+              "file": "README.md",
+              "line": 1,
+              "snippet": "# TableDoctor（脏表医生）"
+            }
+          ],
+          "hit": true,
+          "id": "art.deliverables_all",
+          "note": "必交物全命中（由 Layer 2 复核，见必交物表）",
+          "weight": 6
+        },
+        {
+          "count": 5,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "README.md",
+              "line": 13,
+              "snippet": "## 1. 快速开始"
+            },
+            {
+              "file": "README.md",
+              "line": 16,
+              "snippet": "pip install openpyxl"
+            },
+            {
+              "file": "README.md",
+              "line": 81,
+              "snippet": "python fixtures\\gen.py          # 生成样例 + 账本，GEN_RC=0"
+            }
+          ],
+          "hit": true,
+          "id": "art.readme_usage",
+          "note": "README 含安装与用法",
+          "weight": 5
+        },
+        {
+          "count": 4,
+          "dimension": "artifactCompleteness",
+          "evidence": [
+            {
+              "file": "fixtures/evaluate.py",
+              "line": 57,
+              "snippet": "def main():"
+            },
+            {
+              "file": "fixtures/evaluate.py",
+              "line": 96,
+              "snippet": "if __name__ == \"__main__\":"
+            },
+            {
+              "file": "fixtures/gen.py",
+              "line": 104,
+              "snippet": "def main():"
+            }
+          ],
+          "hit": true,
+          "id": "art.entrypoint",
+          "note": "存在可运行入口",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 3,
+      "probes_total": 3,
+      "raw": 15,
+      "score": 15,
+      "score_final": 5
+    },
+    {
+      "capped": false,
+      "deductions": [
+        {
+          "note": "记录 ≥3 轮迭代",
+          "probe": "ai.iteration_rounds",
+          "weight": 5
+        },
+        {
+          "note": "含 Prompt / 指令记录",
+          "probe": "ai.prompt_records",
+          "weight": 5
+        }
+      ],
+      "id": "aiUsage",
+      "label": "AI 使用质量",
+      "max": 20,
+      "probes": [
+        {
+          "count": 7820,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_AI日志.md",
+              "line": 1,
+              "snippet": "size=7820 bytes"
+            }
+          ],
+          "hit": true,
+          "id": "ai.log_scale",
+          "note": "AI日志存在且成规模（≥1500 字节）",
+          "weight": 6
+        },
+        {
+          "count": 0,
+          "dimension": "aiUsage",
+          "evidence": [],
+          "hit": false,
+          "id": "ai.iteration_rounds",
+          "note": "记录 ≥3 轮迭代",
+          "weight": 5
+        },
+        {
+          "count": 0,
+          "dimension": "aiUsage",
+          "evidence": [],
+          "hit": false,
+          "id": "ai.prompt_records",
+          "note": "含 Prompt / 指令记录",
+          "weight": 5
+        },
+        {
+          "count": 4,
+          "dimension": "aiUsage",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_AI日志.md",
+              "line": 50,
+              "snippet": "一个本机约束直接影响了实现：**Windows + 中文路径下，源码里出现中文字面量会让 Python 进程整进程崩溃（0xC0000005），且不落任何输出**。所以："
+            },
+            {
+              "file": "2023108610260_C9_AI日志.md",
+              "line": 56,
+              "snippet": "这不是\"洁癖\"，是被崩溃教育出来的工程约束。"
+            },
+            {
+              "file": "2023108610260_C9_AI日志.md",
+              "line": 68,
+              "snippet": "### 阶段 5｜第一次评测失败，以及我错在哪"
+            }
+          ],
+          "hit": true,
+          "id": "ai.failure_turns",
+          "note": "记录失败与转向",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 2,
+      "probes_total": 4,
+      "raw": 10,
+      "score": 10,
+      "score_final": 10
+    },
+    {
+      "capped": false,
+      "deductions": [
+        {
+          "note": "有可执行的改进方案",
+          "probe": "ref.actionable_plan",
+          "weight": 6
+        },
+        {
+          "note": "记录被推翻的初判或失败用例",
+          "probe": "ref.failure_kept",
+          "weight": 4
+        }
+      ],
+      "id": "reflectionQuality",
+      "label": "复盘质量",
+      "max": 20,
+      "probes": [
+        {
+          "count": 6498,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 1,
+              "snippet": "size=6498 bytes"
+            }
+          ],
+          "hit": true,
+          "id": "ref.aar_present",
+          "note": "存在 AAR / 复盘文档",
+          "weight": 4
+        },
+        {
+          "count": 15,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 18,
+              "snippet": "| 有可复算的召回率数据 | 最终 recall=1.0000 / precision=1.0000 / injected=19 / matched=19 / false_pos=0 | 达成，但**首轮失败** |"
+            },
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 26,
+              "snippet": "## 2. 卡点与突破"
+            },
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 28,
+              "snippet": "### 卡点 1（最严重）：首轮召回 0.8947，漏了 `near_empty_column@col5`"
+            }
+          ],
+          "hit": true,
+          "id": "ref.concrete_blockers",
+          "note": "有具体卡点描述",
+          "weight": 6
+        },
+        {
+          "count": 1,
+          "dimension": "reflectionQuality",
+          "evidence": [
+            {
+              "file": "2023108610260_C9_AAR_W1.md",
+              "line": 71,
+              "snippet": "| 问题 | 具体表现 | 下一步动作 |"
+            }
+          ],
+          "hit": false,
+          "id": "ref.actionable_plan",
+          "note": "有可执行的改进方案",
+          "weight": 6
+        },
+        {
+          "count": 0,
+          "dimension": "reflectionQuality",
+          "evidence": [],
+          "hit": false,
+          "id": "ref.failure_kept",
+          "note": "记录被推翻的初判或失败用例",
+          "weight": 4
+        }
+      ],
+      "probes_hit": 2,
+      "probes_total": 4,
+      "raw": 10,
+      "score": 10,
+      "score_final": 10
+    }
+  ],
+  "evaluator_version": "c4a-evaluator/1.0.0",
+  "evidence_hash": "d0ef143a0d266f9246042aa56b831537080b1c9155426a3768ab2c7ee65ff70a",
+  "file_count": 31,
+  "max_total": 100,
+  "red_flags": [
+    {
+      "cap": 5,
+      "dimension": "artifactCompleteness",
+      "evidence": {
+        "empty": [],
+        "missing": [
+          "*方案设计*",
+          "*skill-evaluator*",
+          "*评审报告*"
+        ]
+      },
+      "id": "missing_artifacts",
+      "label": "核心交付物缺失或空壳",
+      "triggered": true
+    }
+  ],
+  "review_hints": [
+    "必交物缺失：*方案设计*、*skill-evaluator*、*评审报告* —— 请确认是否换名或未提交。",
+    "红线「核心交付物缺失或空壳」已触发（artifactCompleteness 封顶 5），请复核证据后决定是否放行。",
+    "[评审器质量] 未得分探针 `eval.self_test_report`（-8）：自测报告给出量化误判率 —— 请人工判断是漏交还是本就不适用。",
+    "[复盘质量] 未得分探针 `ref.actionable_plan`（-6）：有可执行的改进方案 —— 请人工判断是漏交还是本就不适用。",
+    "[AI 使用质量] 未得分探针 `ai.iteration_rounds`（-5）：记录 ≥3 轮迭代 —— 请人工判断是漏交还是本就不适用。",
+    "[AI 使用质量] 未得分探针 `ai.prompt_records`（-5）：含 Prompt / 指令记录 —— 请人工判断是漏交还是本就不适用。",
+    "[评审器质量] 未得分探针 `eval.golden_set`（-5）：存在带标注的 Golden Set 测试用例（≥3） —— 请人工判断是漏交还是本就不适用。",
+    "本报告只做结构与证据层判定，不评价方案语义质量，也不代替打分决策。"
+  ],
+  "rubric_id": "C4A",
+  "rubric_version": "1.0.0",
+  "submission_dir": "C:\\.cogseed\\userWorkSpace\\我的挑战有哪些\\C9\\tabledoctor",
+  "title": "技能提交自动评审（结构证据版）",
+  "total": 49
+}
